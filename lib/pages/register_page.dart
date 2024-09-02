@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:upddat/components/spinner.dart';
 import 'package:upddat/services/auth/auth_service.dart';
+import 'package:upddat/services/database/database_service.dart';
 import '../components/action_button.dart';
 import '../components/input_text_field.dart';
 
@@ -19,6 +20,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   // auth service
   final _auth = AuthService();
+  final _db = DatabaseService();
 
   // textfield controllers:
   final TextEditingController nameController = TextEditingController();
@@ -35,9 +37,14 @@ class _RegisterPageState extends State<RegisterPage> {
       // attempt to register user
       try {
         await _auth.registerEmailPassword(
-            emailController.text, passwordController.text);
+          emailController.text,
+          passwordController.text,
+        );
         // finsihed loading
         if (mounted) hideLoadingSpinner(context);
+        // once registered, create and save user profile
+        await _db.saveUserInfoInFirebase(
+            name: nameController.text, email: emailController.text);
       } catch (e) {
         if (mounted) hideLoadingSpinner(context);
         // notify user of the error
