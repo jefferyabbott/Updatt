@@ -94,6 +94,9 @@ class _PostTileState extends State<PostTile> {
     bool likedByCurrentUser =
         listeningProvider.isPostLikedByCurrentUser(widget.post.id);
 
+    // listen to like count
+    int likeCount = listeningProvider.getLikeCount(widget.post.id);
+
     return GestureDetector(
       onTap: widget.onPostTap,
       child: Container(
@@ -163,6 +166,13 @@ class _PostTileState extends State<PostTile> {
                       ? const Icon(Icons.favorite, color: Colors.red)
                       : Icon(Icons.favorite_border,
                           color: Theme.of(context).colorScheme.primary),
+                ),
+                const SizedBox(width: 5),
+                // like count
+                Text(
+                  likeCount != 0 ? likeCount.toString() : '',
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),

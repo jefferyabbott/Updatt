@@ -62,13 +62,16 @@ class DatabaseProvider extends ChangeNotifier {
   bool isPostLikedByCurrentUser(String postId) => _likedPosts.contains(postId);
 
   // get like count of a post
-  int getLikeCount(String postId) => _likeCounts[postId]!;
+  int getLikeCount(String postId) => _likeCounts[postId] ?? 0;
 
   // init local like map
   void initializeLikeMap() {
     final currentUserId = _auth.getCurrentUid();
+    // clear liked posts (if a new user signs in)
+    _likedPosts.clear();
+
     for (var post in _allPosts) {
-      _likeCounts[post.id] == post.likeCount;
+      _likeCounts[post.id] = post.likeCount;
       if (post.likedBy.contains(currentUserId)) {
         _likedPosts.add(post.id);
       }
