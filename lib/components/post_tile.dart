@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:upddat/services/auth/auth_service.dart';
+import 'package:upddat/services/database/database_provider.dart';
 
 import '../models/post.dart';
 
@@ -19,6 +22,64 @@ class PostTile extends StatefulWidget {
 }
 
 class _PostTileState extends State<PostTile> {
+  // providers
+  late final listeningProvider = Provider.of<DatabaseProvider>(context);
+  late final databaseProvider =
+      Provider.of<DatabaseProvider>(context, listen: false);
+
+  void _showOptions() {
+    String currentUid = AuthService().getCurrentUid();
+    final bool isOwnPost = widget.post.uid == currentUid;
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SafeArea(
+            child: Wrap(
+              children: [
+                if (isOwnPost)
+                  // delete message button
+                  ListTile(
+                    leading: const Icon(Icons.delete),
+                    title: const Text("delete"),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await databaseProvider.deletePost(widget.post.id);
+                    },
+                  )
+                else ...[
+                  // report post button
+                  ListTile(
+                    leading: const Icon(Icons.flag),
+                    title: const Text("Report"),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  // block post button
+                  ListTile(
+                    leading: const Icon(Icons.block),
+                    title: const Text("Block user"),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+
+                // cancel button
+                ListTile(
+                  leading: const Icon(Icons.cancel),
+                  title: const Text("cancel"),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -59,6 +120,15 @@ class _PostTileState extends State<PostTile> {
                     '@${widget.post.username}',
                     style:
                         TextStyle(color: Theme.of(context).colorScheme.primary),
+                  ),
+                  const Spacer(),
+                  // options
+                  GestureDetector(
+                    onTap: _showOptions,
+                    child: Icon(
+                      Icons.more_horiz,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ],
               ),
