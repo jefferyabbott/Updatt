@@ -27,6 +27,14 @@ class _PostTileState extends State<PostTile> {
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
 
+  void _toggleLikePost() async {
+    try {
+      await databaseProvider.toggleLike(widget.post.id);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void _showOptions() {
     String currentUid = AuthService().getCurrentUid();
     final bool isOwnPost = widget.post.uid == currentUid;
@@ -82,6 +90,10 @@ class _PostTileState extends State<PostTile> {
 
   @override
   Widget build(BuildContext context) {
+    // does the current use like this post?
+    bool likedByCurrentUser =
+        listeningProvider.isPostLikedByCurrentUser(widget.post.id);
+
     return GestureDetector(
       onTap: widget.onPostTap,
       child: Container(
@@ -139,6 +151,20 @@ class _PostTileState extends State<PostTile> {
               widget.post.message,
               style: TextStyle(
                   color: Theme.of(context).colorScheme.inversePrimary),
+            ),
+            const SizedBox(height: 20),
+            // buttons -> like and comment
+            Row(
+              children: [
+                // like button
+                GestureDetector(
+                  onTap: _toggleLikePost,
+                  child: likedByCurrentUser
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : Icon(Icons.favorite_border,
+                          color: Theme.of(context).colorScheme.primary),
+                ),
+              ],
             ),
           ],
         ),
