@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:upddat/models/post.dart';
 import 'package:upddat/models/user.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 
@@ -53,7 +54,48 @@ class DatabaseService {
       print(e);
     }
   }
+
   // post message
+  Future<void> postMessageInFirebase(String message) async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      UserProfile? user = await getUserFromFirebase(uid);
+      Post newPost = Post(
+        id: '', // firebase will generate the id
+        uid: uid,
+        name: user!.name,
+        username: user!.username,
+        message: message,
+        timestamp: Timestamp.now(),
+        likeCount: 0,
+        likedBy: [],
+      );
+
+      // convert to map
+      Map<String, dynamic> newPostMap = newPost.toMap();
+      // add to firebase
+      await _db.collection("Posts").add(newPostMap);
+    } catch (e) {
+      print(e);
+    }
+  }
+  // delete message
+
+  // get all posts
+  Future<List<Post>> getAllPostsFromFirebase() async {
+    try {
+      QuerySnapshot snapshot = await _db
+          .collection("Posts")
+          .orderBy('timestamp', descending: true)
+          .get();
+      return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  // get individual post
 
   // likes
 
