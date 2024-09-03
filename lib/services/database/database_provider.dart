@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_service.dart';
 
+import '../../models/comment.dart';
 import '../../models/post.dart';
 import '../../models/user.dart';
 
@@ -103,5 +104,32 @@ class DatabaseProvider extends ChangeNotifier {
       _likeCounts = likeCountsOriginal;
       notifyListeners();
     }
+  }
+
+  // comments
+
+  // local list of comments
+  final Map<String, List<Comment>> _comments = {};
+
+  // get comments locally
+  List<Comment> getComments(String postId) => _comments[postId] ?? [];
+
+  // fetch comments from the database for a post
+  Future<void> loadComments(String postId) async {
+    final allComments = await _db.getCommentsFromFirebase(postId);
+    _comments[postId] = allComments;
+    notifyListeners();
+  }
+
+  // add a comment
+  Future<void> addComment(String postId, message) async {
+    await _db.addCommentInFirebase(postId, message);
+    await loadComments(postId);
+  }
+
+  // delete a comment
+  Future<void> deleteComment(String commentId, String postId) async {
+    await _db.deleteCommentInFirebase(commentId);
+    await loadComments(postId);
   }
 }

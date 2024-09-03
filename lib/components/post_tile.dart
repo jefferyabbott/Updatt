@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:upddat/components/input_alert_box.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
@@ -27,12 +28,50 @@ class _PostTileState extends State<PostTile> {
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
 
+  @override
+  void initState() {
+    super.initState();
+    _loadComments();
+  }
+
   void _toggleLikePost() async {
     try {
       await databaseProvider.toggleLike(widget.post.id);
     } catch (e) {
       print(e);
     }
+  }
+
+  final _commentController = TextEditingController();
+  void _openNewCommentBox() {
+    showDialog(
+      context: context,
+      builder: (context) => InputAlertBox(
+          textController: _commentController,
+          hintText: 'enter a comment',
+          onPressed: () {
+            // add comment in db
+            _addComment();
+          },
+          onPressedText: "post"),
+    );
+  }
+
+  Future<void> _addComment() async {
+    if (_commentController.text.trim().isEmpty) return;
+
+    try {
+      await databaseProvider.addComment(
+        widget.post.id,
+        _commentController.text.trim(),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _loadComments() async {
+    await databaseProvider.loadComments(widget.post.id);
   }
 
   void _showOptions() {
@@ -96,6 +135,7 @@ class _PostTileState extends State<PostTile> {
 
     // listen to like count
     int likeCount = listeningProvider.getLikeCount(widget.post.id);
+    int commentCount = listeningProvider.getComments(widget.post.id).length;
 
     return GestureDetector(
       onTap: widget.onPostTap,
@@ -159,20 +199,47 @@ class _PostTileState extends State<PostTile> {
             // buttons -> like and comment
             Row(
               children: [
-                // like button
-                GestureDetector(
-                  onTap: _toggleLikePost,
-                  child: likedByCurrentUser
-                      ? const Icon(Icons.favorite, color: Colors.red)
-                      : Icon(Icons.favorite_border,
-                          color: Theme.of(context).colorScheme.primary),
+                SizedBox(
+                  width: 60,
+                  child: Row(
+                    children: [
+                      // likes
+                      GestureDetector(
+                        onTap: _toggleLikePost,
+                        child: likedByCurrentUser
+                            ? const Icon(Icons.favorite, color: Colors.red)
+                            : Icon(Icons.favorite_border,
+                                color: Theme.of(context).colorScheme.primary),
+                      ),
+                      const SizedBox(width: 5),
+                      // like count
+                      Text(
+                        likeCount != 0 ? likeCount.toString() : '',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(width: 5),
-                // like count
-                Text(
-                  likeCount != 0 ? likeCount.toString() : '',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                // comments
+                Row(
+                  children: [
+                    // comment button
+                    GestureDetector(
+                      onTap: _openNewCommentBox,
+                      child: Icon(
+                        Icons.comment,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    // comment count
+                    Text(
+                      commentCount != 0 ? commentCount.toString() : '',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
                 ),
               ],
             ),
