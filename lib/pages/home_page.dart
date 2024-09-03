@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:upddat/components/action_drawer.dart';
 import 'package:upddat/components/input_alert_box.dart';
 import 'package:upddat/components/post_tile.dart';
+import 'package:upddat/helper/navigate_pages.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
 import '../models/post.dart';
@@ -82,7 +83,11 @@ class _HomePageState extends State<HomePage> {
               // get each post
               final post = posts[index];
               // return in post tile
-              return PostTile(post: post);
+              return PostTile(
+                post: post,
+                onUserTap: () => goToUserPage(context, post.uid),
+                onPostTap: () => goToPostPage(context, post),
+              );
             });
   }
 }

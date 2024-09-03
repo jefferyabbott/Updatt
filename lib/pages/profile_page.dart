@@ -6,6 +6,7 @@ import 'package:upddat/components/post_tile.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
+import '../helper/navigate_pages.dart';
 import '../models/user.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -156,7 +157,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final post = allUserPosts[index];
-                      return PostTile(post: post);
+                      return PostTile(
+                        post: post,
+                        onUserTap: () {},
+                        onPostTap: () => goToPostPage(context, post),
+                      );
                     },
                   ),
           ],
