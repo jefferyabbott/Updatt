@@ -7,6 +7,8 @@ import '../components/settings_tile.dart';
 import '../helper/navigate_pages.dart';
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,7 @@ class SettingsPage extends StatelessWidget {
             title: "Blocked Users",
             action: IconButton(
               onPressed: () => goToBlockedUsersPage(context),
-              icon: Icon(Icons.arrow_forward),
+              icon: const Icon(Icons.arrow_forward),
               color: Theme.of(context).colorScheme.primary,
             ),
           ),

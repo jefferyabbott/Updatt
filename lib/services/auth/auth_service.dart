@@ -1,7 +1,6 @@
 // service that handles Firebase authentication
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:upddat/services/database/database_provider.dart';
 import 'package:upddat/services/database/database_service.dart';
 
 class AuthService {

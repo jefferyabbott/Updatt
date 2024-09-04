@@ -29,7 +29,7 @@ void goToBlockedUsersPage(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => BlockedUsersPage(),
+      builder: (context) => const BlockedUsersPage(),
     ),
   );
 }
