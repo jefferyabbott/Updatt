@@ -170,8 +170,9 @@ class _PostTileState extends State<PostTile> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Report Message"),
-        content: const Text("Are you sure that you want to block this user?"),
+        title: const Text("Block User"),
+        content:
+            Text("Are you sure that you want to block ${widget.post.name}?"),
         actions: [
           // cancel button
           TextButton(
