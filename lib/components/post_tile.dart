@@ -74,6 +74,9 @@ class _PostTileState extends State<PostTile> {
     await databaseProvider.loadComments(widget.post.id);
   }
 
+  // case 1: post belongs to current user, can delete and cancel
+  // case 2: post doesn't belong to current user, can report, block and cancel
+
   void _showOptions() {
     String currentUid = AuthService().getCurrentUid();
     final bool isOwnPost = widget.post.uid == currentUid;
@@ -110,6 +113,7 @@ class _PostTileState extends State<PostTile> {
                     title: const Text("Block user"),
                     onTap: () {
                       Navigator.pop(context);
+                      _blockUserConfirmationBox();
                     },
                   ),
                 ],
@@ -155,6 +159,38 @@ class _PostTileState extends State<PostTile> {
               );
             },
             child: const Text("report"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // block a user confirmation box
+  void _blockUserConfirmationBox() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Report Message"),
+        content: const Text("Are you sure that you want to block this user?"),
+        actions: [
+          // cancel button
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("cancel"),
+          ),
+          // confirmation button
+          TextButton(
+            onPressed: () async {
+              await databaseProvider.blockUser(widget.post.uid);
+              final blockedUser = widget.post.name;
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("@$blockedUser blocked!"),
+                ),
+              );
+            },
+            child: const Text("block"),
           ),
         ],
       ),

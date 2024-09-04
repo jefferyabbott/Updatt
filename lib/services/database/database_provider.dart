@@ -33,8 +33,11 @@ class DatabaseProvider extends ChangeNotifier {
   // fetch all posts
   Future<void> loadAllPosts() async {
     final allPosts = await _db.getAllPostsFromFirebase();
-    // update local data
-    _allPosts = allPosts;
+    // get blocked user ids
+    final blockedUserIds = await _db.getBlockedUsersFromFirebase();
+    // filter out blocked users and update local data
+    _allPosts =
+        allPosts.where((post) => !blockedUserIds.contains(post.uid)).toList();
     initializeLikeMap();
     notifyListeners();
   }
@@ -142,7 +145,7 @@ class DatabaseProvider extends ChangeNotifier {
   List<UserProfile> get blockedUsers => _blockedUsers;
 
   // fetch blocked users from database
-  Future<void> loadBlockedUSers() async {
+  Future<void> loadBlockedUsers() async {
     final blockedUserIds = await _db.getBlockedUsersFromFirebase();
     final blockedUsersData = await Future.wait(
         blockedUserIds.map((id) => _db.getUserFromFirebase(id)));
@@ -153,7 +156,7 @@ class DatabaseProvider extends ChangeNotifier {
   // block user
   Future<void> blockUser(String userId) async {
     await _db.blockUserInFirebase(userId);
-    loadBlockedUSers();
+    loadBlockedUsers();
     loadAllPosts();
     notifyListeners();
   }
@@ -161,7 +164,7 @@ class DatabaseProvider extends ChangeNotifier {
   // unblock user
   Future<void> unblockUser(String userId) async {
     await _db.unblockUserInFirebase(userId);
-    loadBlockedUSers();
+    loadBlockedUsers();
     loadAllPosts();
     notifyListeners();
   }
