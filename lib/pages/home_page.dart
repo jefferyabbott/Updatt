@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
         textController: _messageController,
         hintText: "What's on your mind?",
         onPressed: () async {
+          if (_messageController.text.trim().isEmpty) return;
           await postMessage(_messageController.text);
         },
         onPressedText: 'post',
