@@ -101,6 +101,7 @@ class _PostTileState extends State<PostTile> {
                     title: const Text("Report"),
                     onTap: () {
                       Navigator.pop(context);
+                      _reportPostConfirmationBox();
                     },
                   ),
                   // block post button
@@ -125,6 +126,39 @@ class _PostTileState extends State<PostTile> {
             ),
           );
         });
+  }
+
+  // report a user confirmation box
+  void _reportPostConfirmationBox() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Report Message"),
+        content:
+            const Text("Are you sure that you want to report this message?"),
+        actions: [
+          // cancel button
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("cancel"),
+          ),
+          // confirmation button
+          TextButton(
+            onPressed: () async {
+              await databaseProvider.reportUser(
+                  widget.post.id, widget.post.uid);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Message Reported!"),
+                ),
+              );
+            },
+            child: const Text("report"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

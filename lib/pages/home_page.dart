@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       drawer: ActionDrawer(),
       appBar: AppBar(
-        title: const Text("H O M E"),
+        title: const Text("u p d d a t"),
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
 

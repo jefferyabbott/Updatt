@@ -132,4 +132,42 @@ class DatabaseProvider extends ChangeNotifier {
     await _db.deleteCommentInFirebase(commentId);
     await loadComments(postId);
   }
+
+  // ACCOUNT MANAGEMENT
+
+  // local list of blocked users
+  List<UserProfile> _blockedUsers = [];
+
+  // get list of blocked users
+  List<UserProfile> get blockedUsers => _blockedUsers;
+
+  // fetch blocked users from database
+  Future<void> loadBlockedUSers() async {
+    final blockedUserIds = await _db.getBlockedUsersFromFirebase();
+    final blockedUsersData = await Future.wait(
+        blockedUserIds.map((id) => _db.getUserFromFirebase(id)));
+    _blockedUsers = blockedUsersData.whereType<UserProfile>().toList();
+    notifyListeners();
+  }
+
+  // block user
+  Future<void> blockUser(String userId) async {
+    await _db.blockUserInFirebase(userId);
+    loadBlockedUSers();
+    loadAllPosts();
+    notifyListeners();
+  }
+
+  // unblock user
+  Future<void> unblockUser(String userId) async {
+    await _db.unblockUserInFirebase(userId);
+    loadBlockedUSers();
+    loadAllPosts();
+    notifyListeners();
+  }
+
+  // report user & post
+  Future<void> reportUser(String postId, userId) async {
+    await _db.reportUserInFirebase(postId, userId);
+  }
 }
