@@ -31,15 +31,23 @@ class SettingsPage extends StatelessWidget {
           // block users
           SettingsTile(
             title: "Blocked Users",
-            action: GestureDetector(
-              onTap: () => goToBlockedUsersPage(context),
-              child: Icon(
-                Icons.arrow_forward,
+            action: IconButton(
+              onPressed: () => goToBlockedUsersPage(context),
+              icon: Icon(Icons.arrow_forward),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          // delete account
+          SettingsTile(
+            title: "Account Settings",
+            action: IconButton(
+              onPressed: () => goToAccountSettingsPage(context),
+              icon: Icon(
+                Icons.settings,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
-          // account settings
         ],
       ),
     );
