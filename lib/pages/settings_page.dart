@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:upddat/themes/theme_provider.dart';
 
 import '../components/settings_tile.dart';
+import '../helper/navigate_pages.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -28,6 +29,16 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           // block users
+          SettingsTile(
+            title: "Blocked Users",
+            action: GestureDetector(
+              onTap: () => goToBlockedUsersPage(context),
+              child: Icon(
+                Icons.arrow_forward,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
           // account settings
         ],
       ),

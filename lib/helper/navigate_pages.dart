@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:upddat/pages/profile_page.dart';
 
 import '../models/post.dart';
+import '../pages/blocked_users_page.dart';
 import '../pages/post_page.dart';
 
 void goToUserPage(BuildContext context, String uid) {
@@ -19,6 +20,15 @@ void goToPostPage(BuildContext context, Post post) {
     context,
     MaterialPageRoute(
       builder: (context) => PostPage(post: post),
+    ),
+  );
+}
+
+void goToBlockedUsersPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => BlockedUsersPage(),
     ),
   );
 }
