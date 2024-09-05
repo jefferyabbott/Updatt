@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:upddat/components/bio_box.dart';
+import 'package:upddat/components/follow_button.dart';
 import 'package:upddat/components/input_alert_box.dart';
 import 'package:upddat/components/post_tile.dart';
 import 'package:upddat/services/auth/auth_service.dart';
@@ -34,6 +35,42 @@ class _ProfilePageState extends State<ProfilePage> {
   // loading
   bool _isLoading = true;
 
+  // following state
+  bool _isFollowing = false;
+
+  Future<void> toggleFollow() async {
+    // unfollow
+    if (_isFollowing) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("unfollow"),
+          content: const Text("Are you sure you want to unfollow?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await databaseProvider.unfollowUser(widget.uid);
+              },
+              child: const Text('yes'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // follow
+      await databaseProvider.followUser(widget.uid);
+    }
+
+    setState(() {
+      _isFollowing = !_isFollowing;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +80,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> loadUser() async {
     user = await databaseProvider.userProfile(widget.uid);
+    // load followers & following for this user
+    await databaseProvider.loadUserFollowing(widget.uid);
+    await databaseProvider.loadUserFollowers(widget.uid);
+    // update following state
+    _isFollowing = databaseProvider.isFollowing(widget.uid);
     setState(() {
       _isLoading = false;
     });
@@ -77,6 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     // get user posts
     final allUserPosts = listeningProvider.filterUserPosts(widget.uid);
+    _isFollowing = listeningProvider.isFollowing(widget.uid);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -113,7 +156,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 25),
             // profile stats
-            // follow/unfollow
+
+            // follow/unfollow (only show on other people's profiles
+            if (user != null && user!.uid != currentUserId)
+              FollowButton(
+                onPressed: toggleFollow,
+                isFollowing: _isFollowing,
+              ),
             // edit bio
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
