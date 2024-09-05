@@ -232,7 +232,57 @@ class DatabaseService {
     return snapshot.docs.map((doc) => doc.id).toList();
   }
 
-  // follow
+  // FOLLOW
+
+  // follow user
+  Future<void> followUserInFirebase(String uid) async {
+    final currentUserId = _auth.currentUser!.uid;
+    // add to both the target user's followers list and the current user's following list
+    await _db
+        .collection("Users")
+        .doc(currentUserId)
+        .collection("Following")
+        .doc(uid)
+        .set({});
+    await _db
+        .collection("Users")
+        .doc(uid)
+        .collection("Followers")
+        .doc(currentUserId)
+        .set({});
+  }
+
+  // unfollow user
+  Future<void> unfollowUserInFirebase(String uid) async {
+    final currentUserId = _auth.currentUser!.uid;
+    // remove from both the target user's followers list and the current user's following list
+    await _db
+        .collection("Users")
+        .doc(currentUserId)
+        .collection("Following")
+        .doc(uid)
+        .delete();
+    await _db
+        .collection("Users")
+        .doc(uid)
+        .collection("Followers")
+        .doc(currentUserId)
+        .delete();
+  }
+
+  // get user's followers
+  Future<List<String>> getFollowersFromFirebase(String uid) async {
+    final snapshot =
+        await _db.collection("Users").doc(uid).collection("Followers").get();
+    return snapshot.docs.map((doc) => doc.id).toList();
+  }
+
+  // get user's following
+  Future<List<String>> getFollowingFromFirebase(String uid) async {
+    final snapshot =
+        await _db.collection("Users").doc(uid).collection("Following").get();
+    return snapshot.docs.map((doc) => doc.id).toList();
+  }
 
   // delete user info
   Future<void> deleteUserInfoFromFirebase(String uid) async {

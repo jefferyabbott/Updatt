@@ -173,4 +173,38 @@ class DatabaseProvider extends ChangeNotifier {
   Future<void> reportUser(String postId, userId) async {
     await _db.reportUserInFirebase(postId, userId);
   }
+
+  // FOLLOW
+
+  // local map of followers and following
+  final Map<String, List<String>> _followers = {};
+  final Map<String, List<String>> _following = {};
+  final Map<String, int> _followerCount = {};
+  final Map<String, int> _followingCount = {};
+
+  int getFollowerCount(String uid) => _followerCount[uid] ?? 0;
+  int getFollowingCount(String uid) => _followingCount[uid] ?? 0;
+
+  // load followers
+  Future<void> loadUserFollowers(String uid) async {
+    final listOfFollowerUids = await _db.getFollowersFromFirebase(uid);
+    _followers[uid] = listOfFollowerUids;
+    _followerCount[uid] = listOfFollowerUids.length;
+    notifyListeners();
+  }
+
+  // load following
+  Future<void> loadUserFollowing(String uid) async {
+    final listOfFollowingUids = await _db.getFollowingFromFirebase(uid);
+    _following[uid] = listOfFollowingUids;
+    _followingCount[uid] = listOfFollowingUids.length;
+    notifyListeners();
+  }
+
+  // follow user
+  Future<void> followUser(String uid) async {}
+
+  // unfollow user
+
+  // is current user following target user?
 }
