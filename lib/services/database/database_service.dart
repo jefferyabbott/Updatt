@@ -324,4 +324,20 @@ class DatabaseService {
     // commit batch
     await batch.commit();
   }
+
+  // search users by name
+  Future<List<UserProfile>> searchUsersInFirebase(String searchTerm) async {
+    try {
+      QuerySnapshot snapshot = await _db
+          .collection("Users")
+          .where('username', isGreaterThanOrEqualTo: searchTerm)
+          .where('username', isLessThanOrEqualTo: '$searchTerm\uf8ff')
+          .get();
+
+      return snapshot.docs.map((doc) => UserProfile.fromDocument(doc)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
 }

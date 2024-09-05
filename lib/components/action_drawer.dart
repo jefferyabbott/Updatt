@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:upddat/components/action_drawer_tile.dart';
 import 'package:upddat/pages/profile_page.dart';
 
+import '../pages/search_page.dart';
 import '../pages/settings_page.dart';
 import '../services/auth/auth_service.dart';
 
@@ -67,7 +68,15 @@ class ActionDrawer extends StatelessWidget {
               ActionDrawerTile(
                 title: "S E A R C H",
                 icon: Icons.search,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchPage(),
+                    ),
+                  );
+                },
               ),
               // settings
               ActionDrawerTile(
