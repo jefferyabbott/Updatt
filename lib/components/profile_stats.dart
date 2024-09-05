@@ -4,12 +4,14 @@ class ProfileStats extends StatelessWidget {
   final int postCount;
   final int followCount;
   final int followingCount;
+  final void Function()? onTap;
 
   const ProfileStats({
     super.key,
     required this.postCount,
     required this.followCount,
     required this.followingCount,
+    required this.onTap,
   });
 
   @override
@@ -38,23 +40,29 @@ class ProfileStats extends StatelessWidget {
           ),
         ),
         // follows
-        SizedBox(
-          width: 100,
-          child: Column(
-            children: [
-              Text(followCount.toString(), style: textStyleForCount),
-              Text('followers', style: textStyleForText)
-            ],
+        GestureDetector(
+          onTap: onTap,
+          child: SizedBox(
+            width: 100,
+            child: Column(
+              children: [
+                Text(followCount.toString(), style: textStyleForCount),
+                Text('followers', style: textStyleForText)
+              ],
+            ),
           ),
         ),
         // following
-        SizedBox(
-          width: 100,
-          child: Column(
-            children: [
-              Text(followingCount.toString(), style: textStyleForCount),
-              Text('following', style: textStyleForText)
-            ],
+        GestureDetector(
+          onTap: onTap,
+          child: SizedBox(
+            width: 100,
+            child: Column(
+              children: [
+                Text(followingCount.toString(), style: textStyleForCount),
+                Text('following', style: textStyleForText)
+              ],
+            ),
           ),
         ),
       ],

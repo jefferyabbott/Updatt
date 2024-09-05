@@ -271,4 +271,54 @@ class DatabaseProvider extends ChangeNotifier {
     final currentUserId = _auth.getCurrentUid();
     return _followers[uid]?.contains(currentUserId) ?? false;
   }
+
+  // map of profiles
+  final Map<String, List<UserProfile>> _followersProfile = {};
+  final Map<String, List<UserProfile>> _followingProfile = {};
+
+  // get list of follower profiles
+  List<UserProfile> getListOfFollowersProfiles(String uid) =>
+      _followersProfile[uid] ?? [];
+
+  // get list of following profiles
+  List<UserProfile> getListOfFollowingProfiles(String uid) =>
+      _followingProfile[uid] ?? [];
+
+  // load follower profiles
+  Future<void> loadUserFollowerProfiles(String uid) async {
+    try {
+      final followerIds = await _db.getFollowersFromFirebase(uid);
+      List<UserProfile> followerProfiles = [];
+      for (String followerId in followerIds) {
+        UserProfile? followerProfile =
+            await _db.getUserFromFirebase(followerId);
+        if (followerProfile != null) {
+          followerProfiles.add(followerProfile);
+        }
+      }
+      _followersProfile[uid] = followerProfiles;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // load following profiles
+  Future<void> loadUserFollowingProfiles(String uid) async {
+    try {
+      final followingIds = await _db.getFollowingFromFirebase(uid);
+      List<UserProfile> followingProfiles = [];
+      for (String followingId in followingIds) {
+        UserProfile? followingProfile =
+            await _db.getUserFromFirebase(followingId);
+        if (followingProfile != null) {
+          followingProfiles.add(followingProfile);
+        }
+      }
+      _followingProfile[uid] = followingProfiles;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
 }

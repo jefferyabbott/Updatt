@@ -8,6 +8,7 @@ import 'package:upddat/components/profile_stats.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
+import '../components/follow_list_page.dart';
 import '../helper/navigate_pages.dart';
 import '../models/user.dart';
 
@@ -164,6 +165,12 @@ class _ProfilePageState extends State<ProfilePage> {
               postCount: _allUserPosts.length,
               followCount: _followerCount,
               followingCount: _followingCount,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FollowListPage(uid: widget.uid),
+                ),
+              ),
             ),
             const SizedBox(height: 25),
             // follow/unfollow (only show on other people's profiles
