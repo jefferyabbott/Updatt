@@ -219,8 +219,10 @@ class DatabaseProvider extends ChangeNotifier {
         await _db.followUserInFirebase(targetUid);
         // reload current user's followers
         await loadUserFollowers(currentUserId);
+        await loadUserFollowerProfiles(currentUserId);
         // reload current user's following
         await loadUserFollowing(currentUserId);
+        await loadUserFollowingProfiles(currentUserId);
       } catch (e) {
         // if writing to firestore fails, undo
         _followers[targetUid]?.remove(currentUserId);
@@ -252,8 +254,10 @@ class DatabaseProvider extends ChangeNotifier {
         await _db.unfollowUserInFirebase(targetUid);
         // reload current user's followers
         await loadUserFollowers(currentUserId);
+        await loadUserFollowerProfiles(currentUserId);
         // reload current user's following
         await loadUserFollowing(currentUserId);
+        await loadUserFollowingProfiles(currentUserId);
       } catch (e) {
         // if writing to firestore fails, undo
         _followers[targetUid]?.add(currentUserId);

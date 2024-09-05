@@ -31,12 +31,12 @@ class _FollowListPageState extends State<FollowListPage> {
 
   // load followers
   Future<void> loadFollowerList() async {
-    await databaseProvider.loadUserFollowers(widget.uid);
+    await databaseProvider.loadUserFollowerProfiles(widget.uid);
   }
 
   // load following
   Future<void> loadFollowingList() async {
-    await databaseProvider.loadUserFollowing(widget.uid);
+    await databaseProvider.loadUserFollowingProfiles(widget.uid);
   }
 
   @override

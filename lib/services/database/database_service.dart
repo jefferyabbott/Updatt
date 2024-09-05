@@ -321,8 +321,6 @@ class DatabaseService {
       batch.delete(comment.reference);
     }
 
-    // update follower and following records
-
     // commit batch
     await batch.commit();
   }
