@@ -202,9 +202,73 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   // follow user
-  Future<void> followUser(String uid) async {}
+  Future<void> followUser(String targetUid) async {
+    final currentUserId = _auth.getCurrentUid();
+    _following.putIfAbsent(currentUserId, () => []);
+    _followers.putIfAbsent(targetUid, () => []);
+    if (!_followers[targetUid]!.contains(currentUserId)) {
+      _followers[targetUid]?.add(currentUserId);
+      _followerCount[targetUid] = (_followerCount[targetUid] ?? 0) + 1;
+      _following[currentUserId]?.add(targetUid);
+      _followingCount[currentUserId] =
+          (_followingCount[currentUserId] ?? 0) + 1;
+      notifyListeners();
+      // UI was optimistically updated, now try to update firebase
+      try {
+        // follow user in firebase
+        await _db.followUserInFirebase(targetUid);
+        // reload current user's followers
+        await loadUserFollowers(currentUserId);
+        // reload current user's following
+        await loadUserFollowing(currentUserId);
+      } catch (e) {
+        // if writing to firestore fails, undo
+        _followers[targetUid]?.remove(currentUserId);
+        _followerCount[targetUid] = (_followerCount[targetUid] ?? 0) - 1;
+        _following[currentUserId]?.remove(targetUid);
+        _followingCount[currentUserId] =
+            (_followingCount[currentUserId] ?? 0) - 1;
+        notifyListeners();
+      }
+    }
+  }
 
   // unfollow user
+  Future<void> unfollowUser(String targetUid) async {
+    final currentUserId = _auth.getCurrentUid();
+    _following.putIfAbsent(currentUserId, () => []);
+    _followers.putIfAbsent(targetUid, () => []);
+
+    if (_followers[targetUid]!.contains(currentUserId)) {
+      _followers[targetUid]?.remove(currentUserId);
+      _followerCount[targetUid] = (_followerCount[targetUid] ?? 0) - 1;
+      _following[currentUserId]?.remove(targetUid);
+      _followingCount[currentUserId] =
+          (_followingCount[currentUserId] ?? 0) - 1;
+      notifyListeners();
+      // UI was optimistically updated, now try to update firebase
+      try {
+        // unfollow user in firebase
+        await _db.unfollowUserInFirebase(targetUid);
+        // reload current user's followers
+        await loadUserFollowers(currentUserId);
+        // reload current user's following
+        await loadUserFollowing(currentUserId);
+      } catch (e) {
+        // if writing to firestore fails, undo
+        _followers[targetUid]?.add(currentUserId);
+        _followerCount[targetUid] = (_followerCount[targetUid] ?? 0) + 1;
+        _following[currentUserId]?.add(targetUid);
+        _followingCount[currentUserId] =
+            (_followingCount[currentUserId] ?? 0) + 1;
+        notifyListeners();
+      }
+    }
+  }
 
   // is current user following target user?
+  bool isFollowing(String uid) {
+    final currentUserId = _auth.getCurrentUid();
+    return _followers[uid]?.contains(currentUserId) ?? false;
+  }
 }
