@@ -4,6 +4,7 @@ import 'package:upddat/components/bio_box.dart';
 import 'package:upddat/components/follow_button.dart';
 import 'package:upddat/components/input_alert_box.dart';
 import 'package:upddat/components/post_tile.dart';
+import 'package:upddat/components/profile_stats.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
@@ -118,8 +119,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // get user posts
-    final allUserPosts = listeningProvider.filterUserPosts(widget.uid);
+    final _allUserPosts = listeningProvider.filterUserPosts(widget.uid);
     _isFollowing = listeningProvider.isFollowing(widget.uid);
+    final _followerCount = listeningProvider.getFollowerCount(widget.uid);
+    final _followingCount = listeningProvider.getFollowingCount(widget.uid);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -156,7 +160,12 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 25),
             // profile stats
-
+            ProfileStats(
+              postCount: _allUserPosts.length,
+              followCount: _followerCount,
+              followingCount: _followingCount,
+            ),
+            const SizedBox(height: 25),
             // follow/unfollow (only show on other people's profiles
             if (user != null && user!.uid != currentUserId)
               FollowButton(
@@ -198,16 +207,16 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             // list of posts from user
-            allUserPosts.isEmpty
+            _allUserPosts.isEmpty
                 ? const Center(
                     child: Text("No posts yet..."),
                   )
                 : ListView.builder(
-                    itemCount: allUserPosts.length,
+                    itemCount: _allUserPosts.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      final post = allUserPosts[index];
+                      final post = _allUserPosts[index];
                       return PostTile(
                         post: post,
                         onUserTap: () {},
