@@ -20,9 +20,11 @@ class DatabaseProvider extends ChangeNotifier {
 
   // local list of posts
   List<Post> _allPosts = [];
+  List<Post> _followingPosts = [];
 
   // get posts
   List<Post> get allPosts => _allPosts;
+  List<Post> get followingPosts => _followingPosts;
 
   // post message
   Future<void> postMessage(String message) async {
@@ -38,6 +40,9 @@ class DatabaseProvider extends ChangeNotifier {
     // filter out blocked users and update local data
     _allPosts =
         allPosts.where((post) => !blockedUserIds.contains(post.uid)).toList();
+
+    // filter out the "following" posts
+    loadFollowingPosts();
     initializeLikeMap();
     notifyListeners();
   }
@@ -45,6 +50,14 @@ class DatabaseProvider extends ChangeNotifier {
   // filter and return a user's posts
   List<Post> filterUserPosts(String uid) {
     return _allPosts.where((post) => post.uid == uid).toList();
+  }
+
+  Future<void> loadFollowingPosts() async {
+    String currentUid = _auth.getCurrentUid();
+    final followingUserIds = await _db.getFollowingFromFirebase(currentUid);
+    _followingPosts =
+        _allPosts.where((post) => followingUserIds.contains(post.uid)).toList();
+    notifyListeners();
   }
 
   // delete post

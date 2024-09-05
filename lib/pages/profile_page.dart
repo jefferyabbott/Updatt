@@ -8,7 +8,7 @@ import 'package:upddat/components/profile_stats.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
-import '../components/follow_list_page.dart';
+import 'follow_list_page.dart';
 import '../helper/navigate_pages.dart';
 import '../models/user.dart';
 
@@ -128,9 +128,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Text(_isLoading ? "P R O F I L E" : user!.name),
-        foregroundColor: Theme.of(context).colorScheme.primary,
-      ),
+          title: Text(_isLoading ? "P R O F I L E" : user!.name),
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => goToHomePage(context),
+          )),
       body: Center(
         child: ListView(
           children: [

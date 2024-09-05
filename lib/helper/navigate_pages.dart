@@ -4,6 +4,7 @@ import 'package:upddat/pages/profile_page.dart';
 import '../models/post.dart';
 import '../pages/account_settings_page.dart';
 import '../pages/blocked_users_page.dart';
+import '../pages/home_page.dart';
 import '../pages/post_page.dart';
 
 void goToUserPage(BuildContext context, String uid) {
@@ -41,4 +42,14 @@ void goToAccountSettingsPage(BuildContext context) {
       builder: (context) => const AccountSettingsPage(),
     ),
   );
+}
+
+// go to home page, but reload everything
+void goToHomePage(BuildContext context) {
+  Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+      (route) => route.isFirst);
 }
