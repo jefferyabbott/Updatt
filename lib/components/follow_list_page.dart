@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:upddat/components/user_list_tile.dart';
 import 'package:upddat/models/user.dart';
 
 import '../services/database/database_provider.dart';
@@ -47,9 +48,15 @@ class _FollowListPageState extends State<FollowListPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          bottom: TabBar(
+            dividerColor: Colors.transparent,
+            labelColor: Theme.of(context).colorScheme.inversePrimary,
+            unselectedLabelColor: Theme.of(context).colorScheme.primary,
+            indicatorColor: Theme.of(context).colorScheme.secondary,
+            tabs: const [
               Tab(text: "followers"),
               Tab(text: "following"),
             ],
@@ -75,7 +82,7 @@ class _FollowListPageState extends State<FollowListPage> {
             itemCount: userList.length,
             itemBuilder: (context, index) {
               final user = userList[index];
-              return ListTile(title: Text(user.name));
+              return UserListTile(user: user);
             },
           );
   }
