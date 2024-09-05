@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:upddat/components/input_alert_box.dart';
+import 'package:upddat/helper/time_formatter.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
@@ -311,6 +312,14 @@ class _PostTileState extends State<PostTile> {
                           color: Theme.of(context).colorScheme.primary),
                     ),
                   ],
+                ),
+                const Spacer(),
+                // timestamp
+                Text(
+                  formatTimestamp(widget.post.timestamp),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ],
             ),
