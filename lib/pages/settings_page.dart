@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text("S E T T I N G S"),
+        title: const Text('S E T T I N G S'),
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Column(
@@ -32,7 +32,7 @@ class SettingsPage extends StatelessWidget {
           ),
           // block users
           SettingsTile(
-            title: "Blocked Users",
+            title: 'Blocked Users',
             action: IconButton(
               onPressed: () => goToBlockedUsersPage(context),
               icon: const Icon(Icons.arrow_forward),
@@ -41,7 +41,7 @@ class SettingsPage extends StatelessWidget {
           ),
           // delete account
           SettingsTile(
-            title: "Account Settings",
+            title: 'Account Settings',
             action: IconButton(
               onPressed: () => goToAccountSettingsPage(context),
               icon: Icon(

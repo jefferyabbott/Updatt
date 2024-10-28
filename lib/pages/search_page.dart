@@ -43,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: listeningProvider.searchResults.isEmpty
             ? const Center(
-                child: Text("No users found."),
+                child: Text('No users found.'),
               )
             : ListView.builder(
                 itemCount: listeningProvider.searchResults.length,

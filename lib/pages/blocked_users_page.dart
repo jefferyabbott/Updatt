@@ -30,13 +30,13 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Unblock @$username"),
-        content: Text("Are you sure that you want to unblock $name?"),
+        title: Text('Unblock @$username'),
+        content: Text('Are you sure that you want to unblock $name?'),
         actions: [
           // cancel button
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("cancel"),
+            child: const Text('cancel'),
           ),
           // confirmation button
           TextButton(
@@ -45,11 +45,11 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("@$username unblocked!"),
+                  content: Text('@$username unblocked!'),
                 ),
               );
             },
-            child: const Text("unblock"),
+            child: const Text('unblock'),
           ),
         ],
       ),
@@ -64,12 +64,12 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text("Blocked Users"),
+        title: const Text('Blocked Users'),
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: blockedUsers.isEmpty
           ? const Center(
-              child: Text("No blocked users."),
+              child: Text('No blocked users.'),
             )
           : ListView.builder(
               itemCount: blockedUsers.length,

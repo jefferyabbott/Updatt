@@ -114,7 +114,7 @@ class DatabaseProvider extends ChangeNotifier {
     try {
       await _db.toggleLikeInFirebase(postId);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       // revert back to initial state
       _likedPosts = likedPostsOriginal;
       _likeCounts = likeCountsOriginal;
@@ -316,7 +316,7 @@ class DatabaseProvider extends ChangeNotifier {
       _followersProfile[uid] = followerProfiles;
       notifyListeners();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -335,7 +335,7 @@ class DatabaseProvider extends ChangeNotifier {
       _followingProfile[uid] = followingProfiles;
       notifyListeners();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -350,7 +350,7 @@ class DatabaseProvider extends ChangeNotifier {
       _searchResults = results;
       notifyListeners();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }

@@ -29,7 +29,7 @@ class CommentTile extends StatelessWidget {
                   // delete message button
                   ListTile(
                     leading: const Icon(Icons.delete),
-                    title: const Text("delete"),
+                    title: const Text('delete'),
                     onTap: () async {
                       Navigator.pop(context);
                       await Provider.of<DatabaseProvider>(context,
@@ -41,7 +41,7 @@ class CommentTile extends StatelessWidget {
                   // report comment button
                   ListTile(
                     leading: const Icon(Icons.flag),
-                    title: const Text("Report"),
+                    title: const Text('Report'),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -49,7 +49,7 @@ class CommentTile extends StatelessWidget {
                   // block comment button
                   ListTile(
                     leading: const Icon(Icons.block),
-                    title: const Text("Block user"),
+                    title: const Text('Block user'),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -59,7 +59,7 @@ class CommentTile extends StatelessWidget {
                 // cancel button
                 ListTile(
                   leading: const Icon(Icons.cancel),
-                  title: const Text("cancel"),
+                  title: const Text('cancel'),
                   onTap: () {
                     Navigator.pop(context);
                   },

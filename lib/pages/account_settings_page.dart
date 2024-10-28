@@ -14,14 +14,14 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Delete Account"),
+        title: const Text('Delete Account'),
         content:
-            const Text("Are you sure that you want to delete your account?"),
+            const Text('Are you sure that you want to delete your account?'),
         actions: [
           // cancel button
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("cancel"),
+            child: const Text('cancel'),
           ),
           // confirmation button
           TextButton(
@@ -33,7 +33,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 (route) => false,
               );
             },
-            child: const Text("delete"),
+            child: const Text('delete'),
           ),
         ],
       ),
@@ -61,7 +61,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 ),
                 child: const Center(
                   child: Text(
-                    "Delete account",
+                    'Delete account',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

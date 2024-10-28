@@ -39,7 +39,7 @@ class _PostPageState extends State<PostPage> {
           // comments on this post
           allComments.isEmpty
               ? const Center(
-                  child: Text("No comments yet."),
+                  child: Text('No comments yet.'),
                 )
               : ListView.builder(
                   itemCount: allComments.length,

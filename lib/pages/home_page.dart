@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         drawer: ActionDrawer(),
         appBar: AppBar(
-          title: const Text("u p d d a t"),
+          title: const Text('u p d d a t'),
           foregroundColor: Theme.of(context).colorScheme.primary,
           bottom: TabBar(
             dividerColor: Colors.transparent,
@@ -69,8 +69,8 @@ class _HomePageState extends State<HomePage> {
             unselectedLabelColor: Theme.of(context).colorScheme.primary,
             indicatorColor: Theme.of(context).colorScheme.secondary,
             tabs: const [
-              Tab(text: "for you"),
-              Tab(text: "following"),
+              Tab(text: 'for you'),
+              Tab(text: 'following'),
             ],
           ),
         ),
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostList(List<Post> posts) {
     return posts.isEmpty
         ? const Center(
-            child: Text("No posts"),
+            child: Text('No posts'),
           )
         : ListView.builder(
             itemCount: posts.length,

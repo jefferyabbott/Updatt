@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
         context: context,
         builder: (context) => const AlertDialog(
-          title: Text("Invalid credentials"),
+          title: Text('Invalid credentials'),
         ),
       );
     }
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                   // email textfield
                   InputTextField(
                     controller: emailController,
-                    hintText: "enter email address",
+                    hintText: 'enter email address',
                     obscureText: false,
                   ),
                   const SizedBox(
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                   // password textfield
                   InputTextField(
                     controller: passwordController,
-                    hintText: "enter password",
+                    hintText: 'enter password',
                     obscureText: true,
                   ),
                   const SizedBox(
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "Forgot password?",
+                      'Forgot password?',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   // sign in button
                   ActionButton(
-                    text: "Login",
+                    text: 'Login',
                     onTap: login,
                   ),
                   const SizedBox(
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Not a member?",
+                        'Not a member?',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                       GestureDetector(
                         onTap: widget.onTap,
                         child: Text(
-                          "Register now",
+                          'Register now',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,

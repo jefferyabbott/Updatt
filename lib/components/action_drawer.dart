@@ -42,7 +42,7 @@ class ActionDrawer extends StatelessWidget {
               const SizedBox(height: 10),
               // home
               ActionDrawerTile(
-                title: "H O M E",
+                title: 'H O M E',
                 icon: Icons.home,
                 onTap: () {
                   Navigator.pop(context);
@@ -50,7 +50,7 @@ class ActionDrawer extends StatelessWidget {
               ),
               // profile
               ActionDrawerTile(
-                title: "P R O F I L E",
+                title: 'P R O F I L E',
                 icon: Icons.person,
                 onTap: () {
                   Navigator.pop(context);
@@ -66,7 +66,7 @@ class ActionDrawer extends StatelessWidget {
               ),
               // search
               ActionDrawerTile(
-                title: "S E A R C H",
+                title: 'S E A R C H',
                 icon: Icons.search,
                 onTap: () {
                   Navigator.pop(context);
@@ -80,7 +80,7 @@ class ActionDrawer extends StatelessWidget {
               ),
               // settings
               ActionDrawerTile(
-                title: "S E T T I N G S",
+                title: 'S E T T I N G S',
                 icon: Icons.settings,
                 onTap: () {
                   Navigator.pop(context);
@@ -95,7 +95,7 @@ class ActionDrawer extends StatelessWidget {
               const Spacer(),
               //logout
               ActionDrawerTile(
-                title: "L O G O U T",
+                title: 'L O G O U T',
                 icon: Icons.logout,
                 onTap: logout,
               ),

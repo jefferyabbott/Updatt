@@ -46,12 +46,12 @@ class _ProfilePageState extends State<ProfilePage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text("unfollow"),
-          content: const Text("Are you sure you want to unfollow?"),
+          title: const Text('unfollow'),
+          content: const Text('Are you sure you want to unfollow?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("cancel"),
+              child: const Text('cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -120,15 +120,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // get user posts
-    final _allUserPosts = listeningProvider.filterUserPosts(widget.uid);
+    final allUserPosts = listeningProvider.filterUserPosts(widget.uid);
     _isFollowing = listeningProvider.isFollowing(widget.uid);
-    final _followerCount = listeningProvider.getFollowerCount(widget.uid);
-    final _followingCount = listeningProvider.getFollowingCount(widget.uid);
+    final followerCount = listeningProvider.getFollowerCount(widget.uid);
+    final followingCount = listeningProvider.getFollowingCount(widget.uid);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-          title: Text(_isLoading ? "P R O F I L E" : user!.name),
+          title: Text(_isLoading ? 'P R O F I L E' : user!.name),
           foregroundColor: Theme.of(context).colorScheme.primary,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -165,9 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 25),
             // profile stats
             ProfileStats(
-              postCount: _allUserPosts.length,
-              followCount: _followerCount,
-              followingCount: _followingCount,
+              postCount: allUserPosts.length,
+              followCount: followerCount,
+              followingCount: followingCount,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -189,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Bio",
+                    'Bio',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -212,21 +212,21 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.only(left: 25.0, top: 25.0),
               child: Text(
-                "Posts",
+                'Posts',
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
             // list of posts from user
-            _allUserPosts.isEmpty
+            allUserPosts.isEmpty
                 ? const Center(
-                    child: Text("No posts yet..."),
+                    child: Text('No posts yet...'),
                   )
                 : ListView.builder(
-                    itemCount: _allUserPosts.length,
+                    itemCount: allUserPosts.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      final post = _allUserPosts[index];
+                      final post = allUserPosts[index];
                       return PostTile(
                         post: post,
                         onUserTap: () {},

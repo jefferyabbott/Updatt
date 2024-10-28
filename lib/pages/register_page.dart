@@ -109,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // name textfield
                   InputTextField(
                     controller: nameController,
-                    hintText: "enter name",
+                    hintText: 'enter name',
                     obscureText: false,
                   ),
                   const SizedBox(
@@ -118,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // email textfield
                   InputTextField(
                     controller: emailController,
-                    hintText: "enter email address",
+                    hintText: 'enter email address',
                     obscureText: false,
                   ),
                   const SizedBox(
@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // password textfield
                   InputTextField(
                     controller: passwordController,
-                    hintText: "enter password",
+                    hintText: 'enter password',
                     obscureText: true,
                   ),
                   const SizedBox(
@@ -136,7 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // password confirmation textfield
                   InputTextField(
                     controller: passwordConfirmationController,
-                    hintText: "confirm password",
+                    hintText: 'confirm password',
                     obscureText: true,
                   ),
                   const SizedBox(
@@ -144,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   // sign in button
                   ActionButton(
-                    text: "Sign up",
+                    text: 'Sign up',
                     onTap: register,
                   ),
                   const SizedBox(
@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already a member?",
+                        'Already a member?',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -164,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       GestureDetector(
                         onTap: widget.onTap,
                         child: Text(
-                          "Login",
+                          'Login',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,

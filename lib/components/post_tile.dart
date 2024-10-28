@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_since/time_since.dart';
 import 'package:upddat/components/input_alert_box.dart';
-// import 'package:upddat/helper/time_formatter.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
@@ -40,7 +39,7 @@ class _PostTileState extends State<PostTile> {
     try {
       await databaseProvider.toggleLike(widget.post.id);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -55,7 +54,7 @@ class _PostTileState extends State<PostTile> {
             // add comment in db
             _addComment();
           },
-          onPressedText: "post"),
+          onPressedText: 'post'),
     );
   }
 
@@ -68,7 +67,7 @@ class _PostTileState extends State<PostTile> {
         _commentController.text.trim(),
       );
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -93,7 +92,7 @@ class _PostTileState extends State<PostTile> {
                   // delete message button
                   ListTile(
                     leading: const Icon(Icons.delete),
-                    title: const Text("delete"),
+                    title: const Text('delete'),
                     onTap: () async {
                       Navigator.pop(context);
                       await databaseProvider.deletePost(widget.post.id);
@@ -103,7 +102,7 @@ class _PostTileState extends State<PostTile> {
                   // report post button
                   ListTile(
                     leading: const Icon(Icons.flag),
-                    title: const Text("Report"),
+                    title: const Text('Report'),
                     onTap: () {
                       Navigator.pop(context);
                       _reportPostConfirmationBox();
@@ -112,7 +111,7 @@ class _PostTileState extends State<PostTile> {
                   // block post button
                   ListTile(
                     leading: const Icon(Icons.block),
-                    title: const Text("Block user"),
+                    title: const Text('Block user'),
                     onTap: () {
                       Navigator.pop(context);
                       _blockUserConfirmationBox();
@@ -123,7 +122,7 @@ class _PostTileState extends State<PostTile> {
                 // cancel button
                 ListTile(
                   leading: const Icon(Icons.cancel),
-                  title: const Text("cancel"),
+                  title: const Text('cancel'),
                   onTap: () {
                     Navigator.pop(context);
                   },
@@ -139,14 +138,14 @@ class _PostTileState extends State<PostTile> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Report Message"),
+        title: const Text('Report Message'),
         content:
-            const Text("Are you sure that you want to report this message?"),
+            const Text('Are you sure that you want to report this message?'),
         actions: [
           // cancel button
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("cancel"),
+            child: const Text('cancel'),
           ),
           // confirmation button
           TextButton(
@@ -156,11 +155,11 @@ class _PostTileState extends State<PostTile> {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text("Message Reported!"),
+                  content: Text('Message Reported!'),
                 ),
               );
             },
-            child: const Text("report"),
+            child: const Text('report'),
           ),
         ],
       ),
@@ -172,14 +171,14 @@ class _PostTileState extends State<PostTile> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Block User"),
+        title: const Text('Block User'),
         content:
-            Text("Are you sure that you want to block ${widget.post.name}?"),
+            Text('Are you sure that you want to block ${widget.post.name}?'),
         actions: [
           // cancel button
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("cancel"),
+            child: const Text('cancel'),
           ),
           // confirmation button
           TextButton(
@@ -189,11 +188,11 @@ class _PostTileState extends State<PostTile> {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("@$blockedUser blocked!"),
+                  content: Text('@$blockedUser blocked!'),
                 ),
               );
             },
-            child: const Text("block"),
+            child: const Text('block'),
           ),
         ],
       ),

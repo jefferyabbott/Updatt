@@ -57,15 +57,15 @@ class _FollowListPageState extends State<FollowListPage> {
             unselectedLabelColor: Theme.of(context).colorScheme.primary,
             indicatorColor: Theme.of(context).colorScheme.secondary,
             tabs: const [
-              Tab(text: "followers"),
-              Tab(text: "following"),
+              Tab(text: 'followers'),
+              Tab(text: 'following'),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            _buildUserList(followers, "No followers"),
-            _buildUserList(following, "No following"),
+            _buildUserList(followers, 'No followers'),
+            _buildUserList(following, 'No following'),
           ],
         ),
       ),

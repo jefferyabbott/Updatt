@@ -55,6 +55,7 @@ class InputAlertBox extends StatelessWidget {
             Navigator.pop(context);
             textController.clear();
           },
+          // ignore: prefer_single_quotes
           child: const Text("cancel"),
         ),
         // save button
