@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_since/time_since.dart';
 import 'package:upddat/components/input_alert_box.dart';
-import 'package:upddat/helper/time_formatter.dart';
+// import 'package:upddat/helper/time_formatter.dart';
 import 'package:upddat/services/auth/auth_service.dart';
 import 'package:upddat/services/database/database_provider.dart';
 
@@ -316,7 +317,7 @@ class _PostTileState extends State<PostTile> {
                 const Spacer(),
                 // timestamp
                 Text(
-                  formatTimestamp(widget.post.timestamp),
+                  timeSince(widget.post.timestamp.toDate()),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
